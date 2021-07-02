@@ -87,14 +87,14 @@ isRemberPwd=true
 &pip=10.0.$(shuf -i 1-255 -n 1).$(shuf -i 1-255 -n 1)
 &provinceChanel=general
 &version=android%40$unicom_version
-&deviceModel=MI%209
-&deviceOS=android11
+&deviceModel=iPhone
+&deviceOS=14.4.2
 &deviceCode=$deviceId
 EOF
 
     # cookie登录
     [[ ! -f $workdir/token_online ]] && touch $workdir/token_online
-    data="deviceId=$deviceId&netWay=Wifi&reqtime=$(date +%s)$(shuf -i 100-999 -n 1)&flushkey=1&version=android%40${unicom_version}&deviceModel=MI%209&token_online=$(cat $workdir/token_online | grep -oE "token_online\":\"[^\"]*" | cut -f3 -d\")&appId=$appId&deviceBrand=Xiaomi&deviceCode=$deviceId"
+    data="deviceId=$deviceId&netWay=Wifi&reqtime=$(date +%s)$(shuf -i 100-999 -n 1)&flushkey=1&version=android%40${unicom_version}&deviceModel=iPhone&token_online=$(cat $workdir/token_online | grep -oE "token_online\":\"[^\"]*" | cut -f3 -d\")&appId=$appId&deviceBrand=Xiaomi&deviceCode=$deviceId"
     curl -m 10 -X POST -sA "$UA" -b $workdir/cookie -c $workdir/cookie --data "$data" https://m.client.10010.com/mobileService/onLine.htm >$workdir/token_online
     cat $workdir/token_online | grep -qE "token_online" && status=0 || status=1
     [[ $status == 0 ]] && echo && echo $(date) cookies登录${username:0:2}******${username:8}成功
